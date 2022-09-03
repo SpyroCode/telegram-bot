@@ -1,8 +1,8 @@
 import { Sequelize } from 'sequelize'
 
-const db = new Sequelize('node', 'root', 'r007', {
+const db = new Sequelize('challenge_bot', 'challenge-user', 'dOcFF29D4dxjyqF1BeGRA', {
     host: 'localhost',
-    dialect: 'mysql',
+    dialect: 'postgres',
     // logging: false
 })
 
