@@ -2,6 +2,7 @@ import express, {Application} from 'express'
 import startRoutes from '../app/routes/started'
 import cors from 'cors'
 import db from "./db/connection";
+import logger from "./logger";
 
 
 class Server {
@@ -18,14 +19,16 @@ class Server {
         this.dbConnection()
         this.middlewares()
         this.routes()
-        this.starBot()
+        this.startBot()
     }
 
     async dbConnection() {
+        const functionName = 'dbConnection'
         try {
             await db.authenticate()
-            console.log('Database online')
+            logger.info(`Success DataBase Connection ${functionName}`)
         } catch (error: any) {
+            logger.error(`Error DataBase Connection ${functionName}`)
             throw new Error( error )
         }
     }
@@ -40,8 +43,9 @@ class Server {
         this.app.get(this.paths.home, startRoutes);
     }
 
-    starBot () {
-        console.log('inicia bot')
+    startBot () {
+        const functionName = 'startBot'
+        logger.info(`Started Bot ${functionName}`)
     }
 
     listen() {
