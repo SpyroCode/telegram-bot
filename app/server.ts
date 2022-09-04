@@ -3,6 +3,7 @@ import startRoutes from '../app/routes/started'
 import cors from 'cors'
 import db from "./db/connection";
 import logger from "./logger";
+import createBot from "./functions/bot";
 
 
 class Server {
@@ -43,9 +44,10 @@ class Server {
         this.app.get(this.paths.home, startRoutes);
     }
 
-    startBot () {
+    async startBot () {
         const functionName = 'startBot'
         logger.info(`Started Bot ${functionName}`)
+        await createBot()
     }
 
     listen() {
