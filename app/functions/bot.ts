@@ -7,11 +7,18 @@ export default async function createBot ():Promise<any> {
         logger.info(`Created Bot ${functionName}`)
         const bot = new Telegraf(process.env.BOT_TOKEN || '');
         bot.start((ctx)=>{
-            console.log(ctx)
-            ctx.reply('hola algo')
+            const firstName: string = ctx.message.from.first_name
+            const lastName: string = ctx.message.from.last_name || ''
+            ctx.reply(`Hola ${firstName || ''} ${lastName || ''}`)
         })
         bot.command('buscar', (ctx)=>{
-            ctx.reply('ejecutaste la funcion buscar')
+            const message : string = ctx.message.text
+            const product : string = message.split(' ')[1]
+            if (!product) {
+                ctx.reply(`debes introducir /buscar seguido del producto a buscar`)
+            } else {
+                ctx.reply(`producto a buscar ${product}`)
+            }
         })
 
         bot.command('suscribir', (ctx)=>{
