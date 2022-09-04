@@ -6,10 +6,16 @@ module.exports = {
       id: {
         type:Sequelize.DataTypes.UUID,
         primaryKey:true,
+        allowNull: false,
+        defaultValue: Sequelize.UUIDV4
+      },
+      index: {
+        type: Sequelize.DataTypes.INTEGER,
         allowNull: false
       },
       product: Sequelize.DataTypes.STRING,
       price: Sequelize.DataTypes.FLOAT,
+      image: Sequelize.DataTypes.STRING,
       user_id: {
         type: Sequelize.DataTypes.UUID,
         references: {

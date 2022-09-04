@@ -6,6 +6,11 @@ module.exports = {
       id: {
         type:Sequelize.DataTypes.UUID,
         primaryKey:true,
+        allowNull: false,
+        defaultValue: Sequelize.UUIDV4
+      },
+      index: {
+        type: Sequelize.DataTypes.INTEGER,
         allowNull: false
       },
       first_name: {

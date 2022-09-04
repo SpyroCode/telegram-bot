@@ -6,9 +6,15 @@ module.exports = {
       id: {
         type:Sequelize.DataTypes.UUID,
         primaryKey:true,
+        allowNull: false,
+        defaultValue: Sequelize.UUIDV4
+      },
+      index: {
+        type: Sequelize.DataTypes.INTEGER,
         allowNull: false
       },
       product: Sequelize.DataTypes.STRING,
+      image: Sequelize.DataTypes.STRING,
       response: Sequelize.DataTypes.JSONB,
       user_id: {
         type: Sequelize.DataTypes.UUID,
