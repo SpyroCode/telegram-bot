@@ -4,7 +4,7 @@ const dbDefaults = {
   dialect: 'postgres',
   host: 'localhost',
   port: '5432',
-  database: 'intelligential'
+  database: 'challenge_bot'
 }
 
 const defaults = {
