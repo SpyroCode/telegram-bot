@@ -1,15 +1,15 @@
-import { Sequelize } from 'sequelize'
+import {Dialect, Sequelize} from 'sequelize'
 import dataConnection from "./config";
 
 const database: string = dataConnection.database || 'postgres'
 const dbUser: string = dataConnection.username || ''
 const dbPassword: string = dataConnection.password || ''
 const dbHost: string = dataConnection.host || 'localhost'
-const configDialect: string = dataConnection.dialect || ''
+const dbDriver = dataConnection.dialect as Dialect
 const logging: boolean = dataConnection.logging || false
 const db = new Sequelize(database, dbUser, dbPassword, {
     host: dbHost,
-    dialect: configDialect,
+    dialect: dbDriver,
     logging: logging
 })
 

@@ -3,7 +3,7 @@ dotenv.config();
 
 
 const defaults = {
-    DB_DIALECT: 'postgres',
+    DB_DRIVER: 'postgres',
     DB_HOST: 'localhost',
     DB_PORT: '5432',
     DEFAULT_TIMEZONE: 'UTC'
@@ -11,7 +11,7 @@ const defaults = {
 
 
 const dataConnection = Object.freeze({
-    dialect: process.env.DB_DIALECT || defaults.DB_DIALECT,
+    dialect: process.env.DB_DIALECT || defaults.DB_DRIVER,
     host: process.env.DB_HOST || defaults.DB_HOST,
     port: process.env.DB_PORT || defaults.DB_PORT,
     database: process.env.DB_DATABASE,
