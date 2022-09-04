@@ -1,5 +1,5 @@
 import {Dialect, Sequelize} from 'sequelize'
-import dataConnection from "./config";
+import dataConnection from "./config/dataConnection";
 
 const database: string = dataConnection.database || 'postgres'
 const dbUser: string = dataConnection.username || ''
