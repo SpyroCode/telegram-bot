@@ -1,20 +1,20 @@
 import { Telegraf } from 'telegraf'
 import logger from "../logger";
-import {saveUser} from "./user";
+import {getUser} from "./user";
 
 export default async function createBot ():Promise<any> {
     const functionName = 'createBot'
     try {
         logger.info(`Created Bot ${functionName}`)
         const bot = new Telegraf(process.env.BOT_TOKEN || '');
-        bot.start((ctx)=>{
+         bot.start((ctx)=>{
             const firstName: string = ctx.message.from.first_name
             const lastName: string = ctx.message.from.last_name || ''
-            const user = saveUser({firstName, lastName}).then(resposnse => {
-                console.log(resposnse)
+            getUser({firstName, lastName}).then(response =>{
+                return response
+            }).then((dataValues) => {
+                ctx.reply(`Hola ${firstName || ''} ${lastName || ''} tu numero de registro es ${dataValues.index}`)
             })
-            console.log(user)
-            ctx.reply(`Hola ${firstName || ''} ${lastName || ''}`)
         })
         bot.command('buscar', (ctx)=>{
             const message : string = ctx.message.text
