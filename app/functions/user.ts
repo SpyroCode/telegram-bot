@@ -5,6 +5,7 @@ type User = {
     firstName: string,
     lastName: string,
     index: number | null
+    id: string
 }
 
 export const getUser = async (data: any) => {
@@ -13,7 +14,8 @@ export const getUser = async (data: any) => {
         const user: User = {
             firstName: '',
             lastName: '',
-            index: null
+            index: null,
+            id: ''
         }
         let response : any
         response = await validateUserExist(data, user)
@@ -24,6 +26,7 @@ export const getUser = async (data: any) => {
                 index: await generateUserIndex()
             })
         }
+        user.id = response.id || ''
         user.index = response.index || null
         user.firstName = response.firstName || ''
         user.lastName = response.lastName || ''
@@ -42,6 +45,7 @@ async function validateUserExist (data: any, user: User){
             lastName: data.lastName,
         }
     })
+    user.id = response && response.id || ''
     user.index = response && response.index || null
     user.firstName = response && response.firstName || ''
     user.lastName = response && response.lastName || ''

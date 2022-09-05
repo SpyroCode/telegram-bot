@@ -1,6 +1,7 @@
 import { Telegraf } from 'telegraf'
 import logger from "../logger";
 import {getUser} from "./user";
+import {getProduct} from "./product";
 
 export default async function createBot ():Promise<any> {
     const functionName = 'createBot'
@@ -22,6 +23,9 @@ export default async function createBot ():Promise<any> {
             if (!product) {
                 ctx.reply(`debes introducir /buscar seguido del producto a buscar`)
             } else {
+                const firstName: string = ctx.message.from.first_name
+                const lastName: string = ctx.message.from.last_name || ''
+                getProduct({firstName, lastName, product})
                 ctx.reply(`producto a buscar ${product}`)
             }
         })
