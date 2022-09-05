@@ -9,8 +9,9 @@ type User = {
 }
 
 export const getUser = async (data: any) => {
-    const functionName = 'saveUser'
+    const functionName = 'getUser'
     try {
+        logger.info(`Started function ${functionName}`)
         const user: User = {
             firstName: '',
             lastName: '',

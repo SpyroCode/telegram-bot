@@ -1,6 +1,7 @@
 import logger from "../logger";
 import {getUser} from "./user";
 import Product from "../db/models/product";
+import {scrapingProduct} from "../helpers/scraping";
 
 type User = {
     firstName: string,
@@ -12,11 +13,12 @@ type User = {
 export const getProduct = async (data: any) => {
     const functionName = 'getProduct'
     try {
+      logger.info(`Started function ${functionName}`)
       const user: User = await getUser(data)
       await Product.create({
           index: await generateProductIndex(user),
           product: data.formatMessageProduct,
-          response: ['aqui la response del scrpaing'],
+          response: await scrapingProduct(data.formatMessageProduct),
           userId: user.id
       })
     } catch (err: any) {
