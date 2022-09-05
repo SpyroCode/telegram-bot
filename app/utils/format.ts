@@ -1,9 +1,6 @@
-type formatPhrase = {
-    formatMessageProduct: string,
-    price: number | null
-}
+import { FormatPhrase } from "../interface/definitionTypes";
 
-export const formatProductMessage = (message: string): formatPhrase => {
+export const formatProductMessage = (message: string): FormatPhrase => {
     const phrase : Array<string> = message.split(' ')
     let price: number | null = null
     phrase.shift()

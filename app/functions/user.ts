@@ -1,18 +1,12 @@
 import User from "../db/models/user";
 import logger from "../logger";
-
-type User = {
-    firstName: string,
-    lastName: string,
-    index: number | null
-    id: string
-}
+import { User as UserType } from "../interface/definitionTypes";
 
 export const getUser = async (data: any) => {
     const functionName = 'getUser'
     try {
         logger.info(`Started function ${functionName}`)
-        const user: User = {
+        const user: UserType = {
             firstName: '',
             lastName: '',
             index: null,
@@ -38,7 +32,7 @@ export const getUser = async (data: any) => {
     }
 }
 
-async function validateUserExist (data: any, user: User){
+async function validateUserExist (data: any, user: UserType){
     const response: any = await User.findOne({
         where: {
             active: true,

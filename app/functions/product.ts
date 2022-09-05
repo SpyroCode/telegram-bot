@@ -2,13 +2,7 @@ import logger from "../logger";
 import {getUser} from "./user";
 import Product from "../db/models/product";
 import {scrapingProduct} from "../helpers/scraping";
-
-type User = {
-    firstName: string,
-    lastName: string,
-    index: number | null
-    id: string
-}
+import { User } from "../interface/definitionTypes";
 
 export const getProduct = async (data: any) => {
     const functionName = 'getProduct'

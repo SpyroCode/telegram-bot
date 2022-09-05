@@ -2,13 +2,7 @@ import logger from "../logger";
 import {getUser} from "./user";
 import Subscription from "../db/models/subscription";
 import {scrapingProduct} from "../helpers/scraping";
-
-type User = {
-    firstName: string,
-    lastName: string,
-    index: number | null
-    id: string
-}
+import { User } from "../interface/definitionTypes";
 
 export const getSubscriptions = async (data: any) => {
     const functionName = 'getSubscriptions'
