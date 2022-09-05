@@ -24,10 +24,10 @@ export default async function createBot ():Promise<any> {
             if (!validate) {
                 ctx.reply(`debes introducir /buscar seguido del producto a buscar`)
             } else {
-                const formatMessageProduct: string = formatProductMessage(message)
+                const { formatMessageProduct, price } = formatProductMessage(message)
                 const firstName: string = ctx.message.from.first_name
                 const lastName: string = ctx.message.from.last_name || ''
-                getProduct({firstName, lastName, formatMessageProduct})
+                getProduct({firstName, lastName, formatMessageProduct: formatMessageProduct, price})
                 ctx.reply(`producto a buscar ${formatMessageProduct}`)
             }
         })

@@ -18,6 +18,7 @@ export const getProduct = async (data: any) => {
       await Product.create({
           index: await generateProductIndex(user),
           product: data.formatMessageProduct,
+          price: data.price,
           response: await scrapingProduct(data.formatMessageProduct),
           userId: user.id
       })
