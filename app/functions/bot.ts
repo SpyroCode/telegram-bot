@@ -2,6 +2,7 @@ import { Telegraf } from 'telegraf'
 import logger from "../logger";
 import {getUser} from "./user";
 import {getProduct} from "./product";
+import {formatProductMessage} from "../utils/format";
 
 export default async function createBot ():Promise<any> {
     const functionName = 'createBot'
@@ -19,14 +20,15 @@ export default async function createBot ():Promise<any> {
         })
         bot.command('buscar', (ctx)=>{
             const message : string = ctx.message.text
-            const product : string = message.split(' ')[1]
-            if (!product) {
+            const validate : string = message.split(' ')[1]
+            if (!validate) {
                 ctx.reply(`debes introducir /buscar seguido del producto a buscar`)
             } else {
+                const formatMessageProduct: string = formatProductMessage(message)
                 const firstName: string = ctx.message.from.first_name
                 const lastName: string = ctx.message.from.last_name || ''
-                getProduct({firstName, lastName, product})
-                ctx.reply(`producto a buscar ${product}`)
+                getProduct({firstName, lastName, formatMessageProduct})
+                ctx.reply(`producto a buscar ${formatMessageProduct}`)
             }
         })
 

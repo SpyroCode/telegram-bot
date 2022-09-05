@@ -14,8 +14,8 @@ export const getProduct = async (data: any) => {
     try {
       const user: User = await getUser(data)
       await Product.create({
-          index: await generateProductIndex(),
-          product: data.product,
+          index: await generateProductIndex(user),
+          product: data.formatMessageProduct,
           response: ['aqui la response del scrpaing'],
           userId: user.id
       })
@@ -25,10 +25,10 @@ export const getProduct = async (data: any) => {
     }
 }
 
-async function generateProductIndex () {
+async function generateProductIndex (user: User) {
     const functionName = 'generateUserIndex'
     try {
-        const { count } = await Product.findAndCountAll({ where: { active: true}})
+        const { count } = await Product.findAndCountAll({ where: { active: true, userId: user.id}})
         return  count + 1
     } catch (err: any) {
         logger.error(`Error for generateUserIndex ${functionName}`)
