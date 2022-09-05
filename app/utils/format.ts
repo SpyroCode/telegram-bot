@@ -1,9 +1,9 @@
-type algo = {
+type formatPhrase = {
     formatMessageProduct: string,
     price: number | null
 }
 
-export const formatProductMessage = (message: string): algo => {
+export const formatProductMessage = (message: string): formatPhrase => {
     const phrase : Array<string> = message.split(' ')
     let price: number | null = null
     phrase.shift()
