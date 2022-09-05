@@ -4,6 +4,7 @@ import {getUser} from "./user";
 import {getProduct} from "./product";
 import {formatProductMessage} from "../utils/format";
 import {getSubscriptions} from "./subscription";
+import {FormatPhrase} from "../interface/definitionTypes";
 
 export default async function createBot ():Promise<any> {
     const functionName = 'createBot'
@@ -25,7 +26,7 @@ export default async function createBot ():Promise<any> {
             if (!validate) {
                 ctx.reply(`debes introducir /buscar seguido del producto a buscar`)
             } else {
-                const { formatMessageProduct, price } = formatProductMessage(message)
+                const { formatMessageProduct, price }:FormatPhrase = formatProductMessage(message)
                 const firstName: string = ctx.message.from.first_name
                 const lastName: string = ctx.message.from.last_name || ''
                 getProduct({firstName, lastName, formatMessageProduct: formatMessageProduct, price})
@@ -36,7 +37,7 @@ export default async function createBot ():Promise<any> {
         bot.command('suscribir', (ctx)=>{
             const message : string = ctx.message.text
             const validate : string = message.split(' ')[1]
-            const { formatMessageProduct, price } = formatProductMessage(message)
+            const { formatMessageProduct, price }: FormatPhrase = formatProductMessage(message)
             if (!validate! || !price) {
                 ctx.reply(`debes introducir /suscribir seguido del producto a buscar y un precio`)
             } else {
