@@ -2,7 +2,7 @@ import { DataTypes} from 'sequelize'
 import db from '../connection'
 import User from "./user";
 
-const Product = db.define('product_search', {
+const Subscription = db.define('subscriptions', {
     id: {
         type:DataTypes.UUID,
         primaryKey:true,
@@ -13,8 +13,8 @@ const Product = db.define('product_search', {
         allowNull: false
     },
     product: DataTypes.STRING,
+    price: DataTypes.FLOAT,
     image: DataTypes.STRING,
-    response: DataTypes.JSONB,
     userId: {
         field: 'user_id',
         type: DataTypes.UUID,
@@ -31,10 +31,10 @@ const Product = db.define('product_search', {
         field: 'updated_at',
         type: DataTypes.DATE
     }
-}, { tableName: 'product_search', schema: 'operations'})
-Product.belongsTo(User, {
+}, { tableName: 'subscriptions', schema: 'operations'})
+Subscription.belongsTo(User, {
     as: 'user',
     foreignKey: 'user_id'
 })
 
-export default Product
+export default Subscription

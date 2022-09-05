@@ -3,6 +3,7 @@ import logger from "../logger";
 import {getUser} from "./user";
 import {getProduct} from "./product";
 import {formatProductMessage} from "../utils/format";
+import {getSubscriptions} from "./subscription";
 
 export default async function createBot ():Promise<any> {
     const functionName = 'createBot'
@@ -33,7 +34,17 @@ export default async function createBot ():Promise<any> {
         })
 
         bot.command('suscribir', (ctx)=>{
-            ctx.reply('ejecutaste la funcion suscribir')
+            const message : string = ctx.message.text
+            const validate : string = message.split(' ')[1]
+            const { formatMessageProduct, price } = formatProductMessage(message)
+            if (!validate! || !price) {
+                ctx.reply(`debes introducir /suscribir seguido del producto a buscar y un precio`)
+            } else {
+                const firstName: string = ctx.message.from.first_name
+                const lastName: string = ctx.message.from.last_name || ''
+                getSubscriptions({firstName, lastName, formatMessageProduct: formatMessageProduct, price})
+                ctx.reply(`producto a buscar ${formatMessageProduct} con el precio de ${price}`)
+            }
         })
         bot.launch();
     } catch (error: any) {
