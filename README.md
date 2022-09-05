@@ -4,9 +4,16 @@
 - 🌱 API Bot Telegram 
 
 >Para Ejecutar y desplegar
-> ejecutar `npm i` para instalar dependencias
-> Correr las migraciones `npm run migrate` posterior
-> `npm run start` para ejecutar, se debe configurar la base de datos
+> 
+> 1).-Configurar base de datos en archivo `.ENV`.
+> 
+> 2).-Ejecutar `npm i` para instalar dependencias.
+> 
+> 3).-Correr las migraciones `npm run migrate`.
+> 
+> 4).-Correr las seeders `npm run seed-all`.
+> 
+> 5).-Para finalizar`npm run start` para ejecutar
 
 - 💬 Ask me about **vue, react, javascript, php, laravel**
 
