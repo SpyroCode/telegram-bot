@@ -18,8 +18,16 @@ type ProductResult = {
     url: String
 }
 
+type Suscription = {
+    index: number | null,
+    product: string,
+    price: number | null,
+    date: Date | null
+}
+
 export {
     User,
     FormatPhrase,
-    ProductResult
+    ProductResult,
+    Suscription
 }

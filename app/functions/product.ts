@@ -5,7 +5,7 @@ import {scrapingProduct} from "../helpers/scraping";
 import {ProductResult, User} from "../interface/definitionTypes";
 import {Model} from "sequelize";
 
-export const getProduct = async (data: any) => {
+export const getProduct = async (data: any):Promise<any> => {
     const functionName = 'getProduct'
     try {
       logger.info(`Started function ${functionName}`)
@@ -26,6 +26,7 @@ export const getProduct = async (data: any) => {
           response,
           userId: user.id
       })
+      return response ? response : null
     } catch (err: any) {
         logger.error(`Error for created Bot ${functionName}`)
         throw new Error( err )

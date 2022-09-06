@@ -5,6 +5,7 @@ import {getProduct} from "./product";
 import {formatProductMessage} from "../utils/format";
 import {getSubscriptions} from "./subscription";
 import {FormatPhrase} from "../interface/definitionTypes";
+import {response} from "express";
 
 export default async function createBot ():Promise<any> {
     const functionName = 'createBot'
@@ -30,7 +31,18 @@ export default async function createBot ():Promise<any> {
                 const firstName: string = ctx.message.from.first_name
                 const lastName: string = ctx.message.from.last_name || ''
                 getProduct({firstName, lastName, formatMessageProduct: formatMessageProduct, price})
-                ctx.reply(`producto a buscar ${formatMessageProduct}`)
+                    .then(response => {return response})
+                    .then(response => {
+                        for (const resp of response) {
+                            ctx.reply(`${resp.name}`)
+                            ctx.reply(`$${resp.price}`)
+                            ctx.reply(`${resp.description}`)
+                            ctx.reply(`${resp.image}`)
+                            ctx.reply(` ${resp.url}`)
+                        }
+                    }).catch(reason => {
+                        ctx.reply(`Error en la búsqueda de ${formatMessageProduct} ${reason}`)
+                })
             }
         })
 
@@ -44,7 +56,14 @@ export default async function createBot ():Promise<any> {
                 const firstName: string = ctx.message.from.first_name
                 const lastName: string = ctx.message.from.last_name || ''
                 getSubscriptions({firstName, lastName, formatMessageProduct: formatMessageProduct, price})
-                ctx.reply(`producto a buscar ${formatMessageProduct} con el precio de ${price}`)
+                    .then(response => {
+                        return response
+                    })
+                    .then((dataValues) => {
+                        ctx.reply(`has sido suscrito con los siguientes datos ${dataValues.product} con el precio de ${dataValues.price} tu folio es ${dataValues.index} en breve recibirás las notificaciones`)
+                    }).catch(reason => {
+                    ctx.reply(`Error en la suscripcion de ${formatMessageProduct} ${reason}`)
+                })
             }
         })
         bot.launch();
