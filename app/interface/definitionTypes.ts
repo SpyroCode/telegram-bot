@@ -10,7 +10,16 @@ type FormatPhrase = {
     price: number | null
 }
 
+type ProductResult = {
+    name: String,
+    price: String,
+    description: String,
+    image: String
+    url: String
+}
+
 export {
     User,
-    FormatPhrase
+    FormatPhrase,
+    ProductResult
 }
