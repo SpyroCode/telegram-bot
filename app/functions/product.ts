@@ -13,14 +13,14 @@ export const getProduct = async (data: any):Promise<any> => {
       logger.info(`Started function ${functionName}`)
       const getEnabledSites: Array<Model["_attributes"]> = await getSites()
       const user: User = await getUser(data)
-      const previoResponse: Model | null = await Product.findOne({
+      const previousResponse: Model | null = await Product.findOne({
           where: {
              product: data.formatMessageProduct,
              userId: user.id,
              active: true
           }
       })
-      if (previoResponse)  await previoResponse.update({active: false})
+      if (previousResponse)  await previousResponse.update({active: false})
       let response: {} = {}
       for (const site of getEnabledSites) {
           response = await scrapingProduct(
