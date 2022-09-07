@@ -5,17 +5,13 @@ import {scrapingProduct} from "../helpers/scraping";
 import {ProductResult, User} from "../interface/definitionTypes";
 import {Model} from "sequelize";
 import {refactorProductSearch, replaceValueForString} from "../utils/format";
-import Site from "../db/models/sites";
-import * as url from "url";
+import {getSites} from "./sites";
 
 export const getProduct = async (data: any):Promise<any> => {
     const functionName = 'getProduct'
     try {
       logger.info(`Started function ${functionName}`)
-      const getSites: Model["_attributes"] | null = await Site.findAll({
-          attributes: ['code', 'url', 'configuration'],
-          where: { active: true, enabled: true}
-      })
+      const getEnabledSites: Array<Model["_attributes"]> = await getSites()
       const user: User = await getUser(data)
       const previoResponse: Model | null = await Product.findOne({
           where: {
@@ -26,7 +22,7 @@ export const getProduct = async (data: any):Promise<any> => {
       })
       if (previoResponse)  await previoResponse.update({active: false})
       let response: {} = {}
-      for (const site of getSites) {
+      for (const site of getEnabledSites) {
           response = await scrapingProduct(
               replaceValueForString(refactorProductSearch(data.formatMessageProduct), site.url),
               data.formatMessageProduct
