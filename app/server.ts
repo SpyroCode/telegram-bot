@@ -4,6 +4,7 @@ import cors from 'cors'
 import db from "./db/connection";
 import logger from "./logger";
 import createBot from "./functions/bot";
+import {scheduleCron} from "./helpers/schedule";
 
 
 class Server {
@@ -21,6 +22,7 @@ class Server {
         this.middlewares()
         this.routes()
         this.startBot()
+        this.scheduleProcess ()
     }
 
     async dbConnection() {
@@ -48,6 +50,12 @@ class Server {
         const functionName = 'startBot'
         logger.info(`Started Bot ${functionName}`)
         await createBot()
+    }
+
+    scheduleProcess () {
+        const functionName = 'scheduleProcess'
+        logger.info(`Started schedule ${functionName}`)
+        scheduleCron()
     }
 
     listen() {
