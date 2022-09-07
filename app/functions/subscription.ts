@@ -1,13 +1,11 @@
 import logger from "../logger";
 import {getUser} from "./user";
 import Subscription from "../db/models/subscription";
-import {scrapingProduct} from "../helpers/scraping";
-import {Suscription, User as UserType, User} from "../interface/definitionTypes";
+import {Suscription, User} from "../interface/definitionTypes";
 import {Model} from "sequelize";
-import Product from "../db/models/product";
 
 export const getSubscriptions = async (data: any): Promise<Suscription> => {
-    const functionName = 'getSubscriptions'
+    const functionName = 'functions.getSubscriptions'
     try {
       logger.info(`Started function ${functionName}`)
         const suscription: Suscription = {

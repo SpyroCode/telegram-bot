@@ -4,7 +4,7 @@ import {ProductResult} from "../interface/definitionTypes";
 import logger from "../logger";
 
 export const scrapingProduct = async (url: string, productPhrase: string): Promise<any> => {
-    const functionName = 'scrapingProduct'
+    const functionName = 'helpers.scrapingProduct'
     try {
         logger.info(`Started function ${functionName}`)
         const result: Array<ProductResult> = []

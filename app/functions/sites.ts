@@ -4,7 +4,7 @@ import Site from "../db/models/sites";
 
 
 export const getSites = async ():Promise<any> => {
-    const functionName = 'getSites'
+    const functionName = 'functions.getSites'
     try {
       logger.info(`Started function ${functionName}`)
         const getSites: Model["_attributes"] | null = await Site.findAll({

@@ -5,10 +5,9 @@ import {getProduct} from "./product";
 import {formatProductMessage} from "../utils/format";
 import {getSubscriptions} from "./subscription";
 import {FormatPhrase} from "../interface/definitionTypes";
-import {response} from "express";
 
 export default async function createBot ():Promise<any> {
-    const functionName = 'createBot'
+    const functionName = 'functions.createBot'
     try {
         logger.info(`Created Bot ${functionName}`)
         const bot = new Telegraf(process.env.BOT_TOKEN || '');
