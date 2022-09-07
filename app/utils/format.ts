@@ -14,3 +14,11 @@ export const formatProductMessage = (message: string): FormatPhrase => {
     }, '')
     return { formatMessageProduct: formatPhrase.replace(/^\s*|\s*$/g,""), price }
 }
+
+export const refactorProductSearch = (phraseProduct: String): string => {
+    return (phraseProduct.replace(/ /g, '%20'));
+}
+
+export const replaceValueForString = (phraseProduct: string, collection: string) : string => {
+    return collection.replace(/VALUE/g, phraseProduct)
+}

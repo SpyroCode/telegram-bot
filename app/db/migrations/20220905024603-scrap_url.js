@@ -13,7 +13,9 @@ module.exports = {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false
       },
+      code: Sequelize.DataTypes.STRING,
       url: Sequelize.DataTypes.STRING,
+      configuration: Sequelize.DataTypes.JSONB,
       is_enabled: {
         type: Sequelize.DataTypes.BOOLEAN,
         defaultValue: true,

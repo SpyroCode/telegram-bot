@@ -8,13 +8,19 @@ module.exports = {
     const today = new Date()
     let dataScrapUrl = [
       {
-        url: 'https://www.mercadolibre.com.mx/'
+        url: 'https://listado.mercadolibre.com.mx/VALUE#D[A:VALUE]',
+        code: 'ML',
+        configuration: '{}'
       },
       {
-        url: 'https://www.amazon.com/'
+        url: 'https://www.amazon.com/',
+        code: 'AMAZON',
+        configuration: '{}'
       },
       {
-        url: 'https://spanish.alibaba.com/'
+        url: 'https://spanish.alibaba.com/',
+        code: 'ALIBABA',
+        configuration: '{}'
       }
     ]
     dataScrapUrl = dataScrapUrl.map((el,idx) =>{

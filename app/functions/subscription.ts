@@ -17,7 +17,7 @@ export const getSubscriptions = async (data: any): Promise<Suscription> => {
             date: null
         }
       const user: User = await getUser(data)
-        let result: Model<Suscription>;
+        let result: Model["_attributes"];
         const previoResponse: Model | null = await Subscription.findOne({
             where: {
                 product: data.formatMessageProduct,

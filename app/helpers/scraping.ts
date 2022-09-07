@@ -3,11 +3,10 @@ import randomUseragent from 'random-useragent'
 import {ProductResult} from "../interface/definitionTypes";
 import logger from "../logger";
 
-export const scrapingProduct = async (productPhrase: String): Promise<any> => {
+export const scrapingProduct = async (url: string, productPhrase: string): Promise<any> => {
     const functionName = 'scrapingProduct'
     try {
         logger.info(`Started function ${functionName}`)
-        const url: string = `https://listado.mercadolibre.com.mx/${productPhrase}#D[A:${productPhrase}]`
         const result: Array<ProductResult> = []
         const header = randomUseragent.getRandom()
         const browser = await puppeteer.launch()
