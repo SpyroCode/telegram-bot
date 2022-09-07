@@ -4,6 +4,7 @@ import Subscription from "../db/models/subscription";
 import {scrapingProduct} from "../helpers/scraping";
 import {Suscription, User as UserType, User} from "../interface/definitionTypes";
 import {Model} from "sequelize";
+import Product from "../db/models/product";
 
 export const getSubscriptions = async (data: any): Promise<Suscription> => {
     const functionName = 'getSubscriptions'
@@ -16,13 +17,22 @@ export const getSubscriptions = async (data: any): Promise<Suscription> => {
             date: null
         }
       const user: User = await getUser(data)
-      const result: Model = await Subscription.create({
-          index: await generateSubscriptionsIndex(user),
-          product: data.formatMessageProduct,
-          price: data.price,
-          response: await scrapingProduct(data.formatMessageProduct),
-          userId: user.id
-      })
+        let result: Model<Suscription>;
+        const previoResponse: Model | null = await Subscription.findOne({
+            where: {
+                product: data.formatMessageProduct,
+                price: data.price,
+                userId: user.id,
+                active: true
+            }
+        })
+        if (previoResponse)  await previoResponse.update({active: false})
+        result = await Subscription.create({
+            index: await generateSubscriptionsIndex(user),
+            product: data.formatMessageProduct,
+            price: data.price,
+            userId: user.id
+        });
 
       suscription.index = result.index || null
       suscription.product = result.product || ''

@@ -40,8 +40,8 @@ export default async function createBot ():Promise<any> {
                             ctx.reply(`${resp.image}`)
                             ctx.reply(` ${resp.url}`)
                         }
-                    }).catch(reason => {
-                        ctx.reply(`Error en la búsqueda de ${formatMessageProduct} ${reason}`)
+                    }).catch(() => {
+                        ctx.reply(`Error en la búsqueda de ${formatMessageProduct}`)
                 })
             }
         })
@@ -61,8 +61,8 @@ export default async function createBot ():Promise<any> {
                     })
                     .then((dataValues) => {
                         ctx.reply(`has sido suscrito con los siguientes datos ${dataValues.product} con el precio de ${dataValues.price} tu folio es ${dataValues.index} en breve recibirás las notificaciones`)
-                    }).catch(reason => {
-                    ctx.reply(`Error en la suscripcion de ${formatMessageProduct} ${reason}`)
+                    }).catch(() => {
+                    ctx.reply(`Error en la suscripcion de ${formatMessageProduct}`)
                 })
             }
         })
