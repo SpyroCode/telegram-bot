@@ -7,7 +7,7 @@ export const scheduleCron = () => {
     try {
         const hour = new Date()
         cron.schedule('59 * * * *', () => {
-            logger.info(`running a task scarping notification every hour ${hour}`)
+            logger.info(`running a task scraping notification every hour ${hour}`)
         });
     } catch (err: any) {
         logger.error(`Error for scheduleCron ${functionName}`)
