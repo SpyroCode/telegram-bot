@@ -1,10 +1,11 @@
 import { Telegraf } from 'telegraf'
 import logger from "../logger";
 import {getUser} from "./user";
-import {getProduct} from "./product";
+import {getProduct, getProductResponse} from "./product";
 import {formatProductMessage} from "../utils/format";
 import {getSubscriptions} from "./subscription";
 import {FormatPhrase} from "../interface/definitionTypes";
+import {response} from "express";
 
 export default async function createBot ():Promise<any> {
     const functionName = 'functions.createBot'
@@ -30,16 +31,22 @@ export default async function createBot ():Promise<any> {
                 const firstName: string = ctx.message.from.first_name
                 const lastName: string = ctx.message.from.last_name || ''
                 getProduct({firstName, lastName, formatMessageProduct: formatMessageProduct, price})
-                    .then(response => {return response})
-                    .then(response => {
-                        for (const resp of response) {
-                            ctx.reply(`${resp.name}`)
-                            ctx.reply(`$${resp.price}`)
-                            ctx.reply(`${resp.description}`)
-                            ctx.reply(`${resp.image}`)
-                            ctx.reply(` ${resp.url}`)
-                        }
-                    }).catch(() => {
+                    .then(()=>{
+                        getProductResponse({firstName, lastName, formatMessageProduct: formatMessageProduct, price}).then(response => {return response})
+                            .then(response => {
+                                for (const resp of response) {
+                                    ctx.reply(`Para ${resp.siteCode} estas búsquedas :`)
+                                    for (const product of resp.coincidences) {
+                                        ctx.reply(`${product.name}`)
+                                        ctx.reply(`$${product.price}`)
+                                        ctx.reply(`${product.description}`)
+                                        ctx.reply(`${product.image}`)
+                                        ctx.reply(` ${product.url}`)
+                                    }
+                                }
+                            })
+                    })
+                    .catch(() => {
                         ctx.reply(`Error en la búsqueda de ${formatMessageProduct}`)
                 })
             }

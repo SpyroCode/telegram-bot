@@ -7,7 +7,7 @@ import {Model} from "sequelize";
 import {refactorProductSearch, replaceValueForString} from "../utils/format";
 import {getSites} from "./sites";
 
-export const getProduct = async (data: any):Promise<any> => {
+export const getProduct = async (data: any):Promise<boolean> => {
     const functionName = 'functions.getProduct'
     try {
       logger.info(`Started function ${functionName}`)
@@ -36,9 +36,33 @@ export const getProduct = async (data: any):Promise<any> => {
               userId: user.id
           })
       }
-      return response ? response : null
+      return response ? !!response : false
     } catch (err: any) {
-        logger.error(`Error for created Bot ${functionName}`)
+        logger.error(`Error en function ${functionName}`)
+        throw new Error( err )
+    }
+}
+
+export const getProductResponse = async (data: any):Promise<any> => {
+    const functionName = 'functions.getProductResponse'
+    try {
+      logger.info(`Started function ${functionName}`)
+      const user: User = await getUser(data)
+        const productResponse: Model["_attributes"] | null = await Product.findAll({
+            where: {
+                product: data.formatMessageProduct,
+                userId: user.id,
+                active: true
+            }
+        })
+        return productResponse.map((resp: { siteCode: string; response: Array<any>; }) => {
+            return {
+                siteCode: resp.siteCode,
+                coincidences: resp.response
+            }
+        })
+    } catch (err: any) {
+        logger.error(`Error en function ${functionName}`)
         throw new Error( err )
     }
 }
