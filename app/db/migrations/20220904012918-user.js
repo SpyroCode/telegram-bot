@@ -13,6 +13,10 @@ module.exports = {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false
       },
+      telegram_id: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false
+      },
       first_name: {
         type: Sequelize.DataTypes.STRING,
       },

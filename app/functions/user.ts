@@ -9,6 +9,7 @@ export const getUser = async (data: any) => {
         const user: UserType = {
             firstName: '',
             lastName: '',
+            telegramId: null,
             index: null,
             id: ''
         }
@@ -18,11 +19,13 @@ export const getUser = async (data: any) => {
             response = await User.create({
                 firstName: data.firstName,
                 lastName: data.lastName,
+                telegramId: data.telegramId,
                 index: await generateUserIndex()
             })
         }
         user.id = response.id || ''
         user.index = response.index || null
+        user.telegramId = response.telegramId || null
         user.firstName = response.firstName || ''
         user.lastName = response.lastName || ''
         return user
@@ -38,8 +41,7 @@ async function validateUserExist (data: any, user: UserType){
         const response: any = await User.findOne({
             where: {
                 active: true,
-                firstName: data.firstName,
-                lastName: data.lastName,
+                telegramId: data.telegramId
             }
         })
         user.id = response && response.id || ''

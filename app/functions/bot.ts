@@ -13,9 +13,11 @@ export default async function createBot ():Promise<any> {
         logger.info(`Created Bot ${functionName}`)
         const bot = new Telegraf(process.env.BOT_TOKEN || '');
          bot.start((ctx)=>{
+             console.log(ctx.message.from)
             const firstName: string = ctx.message.from.first_name
             const lastName: string = ctx.message.from.last_name || ''
-            getUser({firstName, lastName}).then(response =>{
+             const telegramId: number = ctx.message.from.id
+            getUser({firstName, lastName, telegramId}).then(response =>{
                 return response
             }).then((dataValues) => {
                 ctx.reply(`Hola ${firstName || ''} ${lastName || ''} tu numero de registro es ${dataValues.index}`)

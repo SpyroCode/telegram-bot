@@ -1,6 +1,7 @@
 type User = {
     firstName: string,
     lastName: string,
+    telegramId: number | null,
     index: number | null
     id: string
 }

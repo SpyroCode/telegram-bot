@@ -11,6 +11,11 @@ const User = db.define('user', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
+    telegramId: {
+        field: 'telegram_id',
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
     firstName: {
         field: 'first_name',
         type: DataTypes.STRING,
