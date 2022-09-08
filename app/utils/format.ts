@@ -22,3 +22,31 @@ export const refactorProductSearch = (phraseProduct: String): string => {
 export const replaceValueForString = (phraseProduct: string, collection: string) : string => {
     return collection.replace(/VALUE/g, phraseProduct)
 }
+
+export const valueToNumber = (value: any): number => {
+    const specialChars = '!@#$^&%*()+=-[]{}|:<>?,'
+    for (let i = 0; i < specialChars.length; i++) {
+        value = value.replace(new RegExp('\\' + specialChars[i], 'gi'), '')
+    }
+    value = value.replace(/á/gi, 'a')
+    value = value.replace(/é/gi, 'e')
+    value = value.replace(/í/gi, 'i')
+    value = value.replace(/ó/gi, 'o')
+    value = value.replace(/ú/gi, 'u')
+    value = value.replace(/ñ/gi, 'n')
+    value = value.replace(/ü/gi, 'u')
+    value = value.replace(/Á/gi, 'A')
+    value = value.replace(/É/gi, 'E')
+    value = value.replace(/Í/gi, 'I')
+    value = value.replace(/Ú/gi, 'U')
+    value = value.replace(/Ü/gi, 'U')
+    value = value.replace(/Ñ/gi, 'N')
+    value = parseFloat(value)
+    return value || 0
+}
+
+export const formatMoney = (value: number):string =>{
+    return '$'+  Intl.NumberFormat("en-MX",{
+        minimumFractionDigits: 2
+    }).format(value);
+}
