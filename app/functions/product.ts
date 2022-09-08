@@ -26,7 +26,7 @@ export const getProduct = async (data: any):Promise<boolean> => {
           response = await scrapingProduct(
               replaceValueForString(refactorProductSearch(data.formatMessageProduct), site.url),
               data.formatMessageProduct,
-              data.configuration
+              site.configuration
           )
           await Product.create({
               index: await generateProductIndex(user),
