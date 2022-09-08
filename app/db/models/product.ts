@@ -13,7 +13,10 @@ const Product = db.define('product_search', {
         allowNull: false
     },
     product: DataTypes.STRING,
-    image: DataTypes.STRING,
+    siteCode: {
+        field: 'site_code',
+        type: DataTypes.STRING,
+    },
     response: DataTypes.JSONB,
     userId: {
         field: 'user_id',

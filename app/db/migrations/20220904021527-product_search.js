@@ -14,7 +14,7 @@ module.exports = {
         allowNull: false
       },
       product: Sequelize.DataTypes.STRING,
-      image: Sequelize.DataTypes.STRING,
+      site_code: Sequelize.DataTypes.STRING,
       response: Sequelize.DataTypes.JSONB,
       user_id: {
         type: Sequelize.DataTypes.UUID,

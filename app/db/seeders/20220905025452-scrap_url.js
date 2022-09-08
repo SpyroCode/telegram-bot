@@ -10,7 +10,7 @@ module.exports = {
       {
         url: 'https://listado.mercadolibre.com.mx/VALUE#D[A:VALUE]',
         code: 'ML',
-        configuration: '{}'
+        configuration: '{"container": ".ui-search-results", "section": ".ui-search-layout__item", "elements":  {"price": ".price-tag-fraction", "name": ".ui-search-item__title", "image": ".ui-search-result-image__element"}}'
       },
       {
         url: 'https://www.amazon.com/',
@@ -26,7 +26,7 @@ module.exports = {
     dataScrapUrl = dataScrapUrl.map((el,idx) =>{
       return{
         ...el,
-        index: parseInt(count + 1) + idx,
+        index: parseInt(count) + 1 + idx,
         id: uuid.v4(),
         created_at: today,
         updated_at: today

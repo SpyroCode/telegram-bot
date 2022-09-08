@@ -32,6 +32,7 @@ export const getProduct = async (data: any):Promise<any> => {
               product: data.formatMessageProduct,
               price: data.price,
               response,
+              siteCode: site.code,
               userId: user.id
           })
       }
