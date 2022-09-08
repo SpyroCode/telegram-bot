@@ -46,10 +46,12 @@ async function validateUserExist (data: any, user: UserType){
         })
         user.id = response && response.id || ''
         user.index = response && response.index || null
+        user.telegramId = response.telegramId || null
         user.firstName = response && response.firstName || ''
         user.lastName = response && response.lastName || ''
         return user
     } catch (err: any) {
+        console.log(err)
         logger.error(`Error for validateUserExist ${functionName}`)
         throw new Error( err )
     }

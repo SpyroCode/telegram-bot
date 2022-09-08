@@ -25,7 +25,8 @@ export const getProduct = async (data: any):Promise<boolean> => {
       for (const site of getEnabledSites) {
           response = await scrapingProduct(
               replaceValueForString(refactorProductSearch(data.formatMessageProduct), site.url),
-              data.formatMessageProduct
+              data.formatMessageProduct,
+              data.configuration
           )
           await Product.create({
               index: await generateProductIndex(user),

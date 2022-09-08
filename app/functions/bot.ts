@@ -15,7 +15,7 @@ export default async function createBot ():Promise<any> {
          bot.start((ctx)=>{
             const firstName: string = ctx.message.from.first_name
             const lastName: string = ctx.message.from.last_name || ''
-             const telegramId: number = ctx.message.from.id
+            const telegramId: number = ctx.message.from.id
             getUser({firstName, lastName, telegramId}).then(response =>{
                 return response
             }).then((dataValues) => {
@@ -31,9 +31,10 @@ export default async function createBot ():Promise<any> {
                 const { formatMessageProduct, price }:FormatPhrase = formatProductMessage(message)
                 const firstName: string = ctx.message.from.first_name
                 const lastName: string = ctx.message.from.last_name || ''
-                getProduct({firstName, lastName, formatMessageProduct: formatMessageProduct, price})
+                const telegramId: number = ctx.message.from.id
+                getProduct({firstName, lastName, telegramId, formatMessageProduct: formatMessageProduct, price})
                     .then(()=>{
-                        getProductResponse({firstName, lastName, formatMessageProduct: formatMessageProduct, price}).then(response => {return response})
+                        getProductResponse({firstName, lastName, telegramId, formatMessageProduct: formatMessageProduct, price}).then(response => {return response})
                             .then(response => {
                                 for (const resp of response) {
                                     ctx.reply(`Para ${resp.siteCode} estas búsquedas :`)
@@ -62,7 +63,8 @@ export default async function createBot ():Promise<any> {
             } else {
                 const firstName: string = ctx.message.from.first_name
                 const lastName: string = ctx.message.from.last_name || ''
-                getSubscriptions({firstName, lastName, formatMessageProduct: formatMessageProduct, price})
+                const telegramId: number = ctx.message.from.id
+                getSubscriptions({firstName, lastName, telegramId, formatMessageProduct: formatMessageProduct, price})
                     .then(response => {
                         return response
                     })

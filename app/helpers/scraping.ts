@@ -3,9 +3,10 @@ import randomUseragent from 'random-useragent'
 import {ProductResult} from "../interface/definitionTypes";
 import logger from "../logger";
 
-export const scrapingProduct = async (url: string, productPhrase: string): Promise<any> => {
+export const scrapingProduct = async (url: string, productPhrase: string, configuration: any): Promise<any> => {
     const functionName = 'helpers.scrapingProduct'
     try {
+        console.log(configuration)
         logger.info(`Started function ${functionName}`)
         const result: Array<ProductResult> = []
         const header = randomUseragent.getRandom()
