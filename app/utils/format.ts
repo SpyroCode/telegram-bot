@@ -46,7 +46,8 @@ export const valueToNumber = (value: any): number => {
 }
 
 export const formatMoney = (value: number):string =>{
-    return '$'+  Intl.NumberFormat("en-MX",{
+    const price: string = '$'+  Intl.NumberFormat("en-MX",{
         minimumFractionDigits: 2
     }).format(value);
+    return price
 }
