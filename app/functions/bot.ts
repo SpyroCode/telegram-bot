@@ -94,7 +94,8 @@ export default async function createBot ():Promise<any> {
                     }
                 })
                 bot.action('MERCADO-LIBRE', ctx => {
-                    const result = response.find(el => el.siteCode === 'MERCADO-LIBRE')
+                    const siteCode: string = ctx.callbackQuery.data || ''
+                    const result = response.find(el => el.siteCode === siteCode)
                     const iterator: Array<any> = refactorResponse(result)
                     for (const product of iterator) {
                         ctx.reply(`${product.name}`)
@@ -107,7 +108,8 @@ export default async function createBot ():Promise<any> {
                 })
 
                 bot.action('ALIBABA', ctx => {
-                    const result = response.find(el => el.siteCode === 'ALIBABA')
+                    const siteCode: string = ctx.callbackQuery.data || ''
+                    const result = response.find(el => el.siteCode === siteCode)
                     const iterator: Array<any> = refactorResponse(result)
                     for (const product of iterator) {
                         ctx.reply(`${product.name}`)
@@ -120,7 +122,8 @@ export default async function createBot ():Promise<any> {
                 })
 
                 bot.action('AMAZON', ctx => {
-                    const result = response.find(el => el.siteCode === 'AMAZON')
+                    const siteCode: string = ctx.callbackQuery.data || ''
+                    const result = response.find(el => el.siteCode === siteCode)
                     const iterator: Array<any> = refactorResponse(result)
                     for (const product of iterator) {
                         ctx.reply(`${product.name}`)
@@ -131,6 +134,7 @@ export default async function createBot ():Promise<any> {
                     }
                     ctx.answerCbQuery()
                 })
+
 
 
 
@@ -151,7 +155,7 @@ export default async function createBot ():Promise<any> {
 const refactorResponse = (resp: any):Array<any> => {
     const totalResult: number = 15
     const result: Array<any> = []
-    const iterator: Array<any> = resp.coincidences
+    const iterator: Array<any> =  resp.coincidences
     for (let i = 0; i<= totalResult; i++){
         result.push({...iterator[i], price: formatMoney(valueToNumber(iterator[i].price))})
     }
