@@ -4,13 +4,24 @@ import {getUser} from "./user";
 import {getProduct, getProductResponse} from "./product";
 import {formatMoney, formatProductMessage, valueToNumber} from "../utils/format";
 import {getSubscriptions} from "./subscription";
-import {FormatPhrase} from "../interface/definitionTypes";
+import {FormatPhrase, ProductResult} from "../interface/definitionTypes";
 
 export default async function createBot ():Promise<any> {
     const functionName = 'functions.createBot'
     try {
         logger.info(`Created Bot ${functionName}`)
         const bot = new Telegraf(process.env.BOT_TOKEN || '');
+         bot.help(ctx =>{
+             const helpMessage: string = `
+             *Bot para búsqueda de productos*
+             /start - Registro de de usuario
+             /buscar -seguido del producto a buscar
+             /suscribir -Seguido del producto y el precio
+             `
+             bot.telegram.sendMessage(ctx.from.id, helpMessage, {
+                 parse_mode: 'Markdown'
+             })
+         })
          bot.start((ctx)=>{
             const firstName: string = ctx.message.from.first_name
             const lastName: string = ctx.message.from.last_name || ''
@@ -36,16 +47,6 @@ export default async function createBot ():Promise<any> {
                     .then(()=>{
                         getProductResponse({firstName, lastName, telegramId, formatMessageProduct: formatMessageProduct, price}).then(response => {return response})
                             .then(response => {
-                                // for (const resp of response) {
-                                //     ctx.reply(`Para ${resp.siteCode} estas búsquedas :`)
-                                //     for (const product of resp.coincidences) {
-                                //         ctx.reply(`${product.name}`)
-                                //         ctx.reply(`$${product.price}`)
-                                //         ctx.reply(`${product.description}`)
-                                //         ctx.reply(`${product.image}`)
-                                //         ctx.reply(` ${product.url}`)
-                                //     }
-                                // }
                                 validateResponse(response, ctx)
                             })
                     })
@@ -96,7 +97,7 @@ export default async function createBot ():Promise<any> {
                 bot.action('MERCADO-LIBRE', ctx => {
                     const siteCode: string = ctx.callbackQuery.data || ''
                     const result = response.find(el => el.siteCode === siteCode)
-                    const iterator: Array<any> = refactorResponse(result)
+                    const iterator: Array<ProductResult> = refactorResponse(result)
                     for (const product of iterator) {
                         ctx.reply(`${product.name}`)
                         ctx.reply(`Precio ${product.price}`)
@@ -110,7 +111,7 @@ export default async function createBot ():Promise<any> {
                 bot.action('ALIBABA', ctx => {
                     const siteCode: string = ctx.callbackQuery.data || ''
                     const result = response.find(el => el.siteCode === siteCode)
-                    const iterator: Array<any> = refactorResponse(result)
+                    const iterator: Array<ProductResult> = refactorResponse(result)
                     for (const product of iterator) {
                         ctx.reply(`${product.name}`)
                         ctx.reply(`Precio ${product.price}`)
@@ -124,7 +125,7 @@ export default async function createBot ():Promise<any> {
                 bot.action('AMAZON', ctx => {
                     const siteCode: string = ctx.callbackQuery.data || ''
                     const result = response.find(el => el.siteCode === siteCode)
-                    const iterator: Array<any> = refactorResponse(result)
+                    const iterator: Array<ProductResult> = refactorResponse(result)
                     for (const product of iterator) {
                         ctx.reply(`${product.name}`)
                         ctx.reply(`Precio ${product.price}`)
