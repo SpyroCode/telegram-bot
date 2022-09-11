@@ -67,3 +67,13 @@ async function generateUserIndex () {
         throw new Error( err )
     }
 }
+
+export const getUserById = async (userId: string) => {
+    const functionName = 'functions.getUser'
+    try {
+      return await User.findByPk(userId)
+    } catch (err) {
+        logger.error(`Error for generateUserIndex ${functionName}`)
+        throw new Error( err )
+    }
+}

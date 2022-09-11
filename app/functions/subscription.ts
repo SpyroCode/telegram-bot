@@ -64,6 +64,7 @@ export const executeFinderSubscription = async () => {
         logger.info(`Started function ${functionName}`)
         const getEnabledSites: Array<Model["_attributes"]> = await getSites()
         const subscriptions: Array<Model["_attributes"]> = await Subscription.findAll({ where: { active: true } })
+        const getResultSubscriptions : Array<Model> = []
         for (const subscription of subscriptions) {
             for (const site of getEnabledSites) {
                 const response: Array<ProductResult> = await scrapingProduct(
@@ -83,18 +84,20 @@ export const executeFinderSubscription = async () => {
                            }
                        })
                         if (subscriptionPrevioResponse)  await subscriptionPrevioResponse.update({active: false})
-                        await SubscriptionResponse.create({
+                        const saveResult = await SubscriptionResponse.create({
                             index: await generateSubscriptionsResponseIndex(),
                             userId: subscription.userId,
                             subscriptionId: subscription.id,
                             response: filterResponse,
                             siteCode: site.code
                         })
+                        getResultSubscriptions.push(saveResult)
 
                     }
                 }
             }
         }
+        return getResultSubscriptions
     } catch (err: any) {
         console.log(err)
         logger.error(`Error for executeFinderSubscription ${functionName}`)

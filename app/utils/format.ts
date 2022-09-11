@@ -53,3 +53,12 @@ export const formatMoney = (value: number):string =>{
     }).format(value);
     return price
 }
+
+export const formatText = (value: string):string =>{
+    if(!value) return ''
+    const specialChars = '!@#$^&%*()+=-[]{}|:<>?,_//'
+    for (let i = 0; i < specialChars.length; i++) {
+        value = value && value.replace(new RegExp('\\' + specialChars[i], 'gi'), ' ')
+    }
+    return value
+}

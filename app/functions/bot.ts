@@ -83,8 +83,6 @@ export default async function createBot ():Promise<any> {
 
         bot.command('verresultados', (ctx)=>{
             console.log('estas viendo resultados')
-            console.log(ctx.message.from)
-            console.log(ctx.message.chat)
         })
         const validateResponse = (response:Array<any>, ctx: any) => {
             const functionName = 'validateResponse'

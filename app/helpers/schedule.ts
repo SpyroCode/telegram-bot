@@ -3,17 +3,22 @@ import logger from "../logger";
 import axios from 'axios';
 import {executeFinderSubscription} from "../functions/subscription";
 import {ConfigTelegram} from "../interface/definitionTypes";
+import {getUserById} from "../functions/user";
+import {Model} from "sequelize";
+import {formatText} from "../utils/format";
 
 export const scheduleCron = async () => {
     const functionName = 'helpers.scheduleCron'
     logger.info(`Started function ${functionName}`)
     try {
-        cron.schedule('44 * * * *',  async () => {
+        cron.schedule('30 * * * *',  async () => {
             logger.info(`running a task scraping notification every hour ${functionName}`)
-            await executeFinderSubscription()
-            const chatId = '1085356873'
-            const message = 'Hola tienes resultados de tus suscripciones /verresultados'
-            await sendNotification(message, 'text', chatId)
+            const getResultSubscriptions: Model["_attributes"] = await executeFinderSubscription()
+            for (const result of getResultSubscriptions) {
+                const message = `Hola tienes resultados de tus suscripciones de sitio ${formatText(result.siteCode)} /verresultados`
+                const user: Model["_attributes"] = await getUserById(result.userId)
+                await sendNotification(message, 'text', user.telegramId)
+            }
             logger.info(`Finished function ${functionName}`)
         });
     } catch (err: any) {
