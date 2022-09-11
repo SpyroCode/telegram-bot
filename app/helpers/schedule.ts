@@ -11,7 +11,7 @@ export const scheduleCron = async () => {
     const functionName = 'helpers.scheduleCron'
     logger.info(`Started function ${functionName}`)
     try {
-        cron.schedule('30 * * * *',  async () => {
+        cron.schedule('59 * * * *',  async () => {
             logger.info(`running a task scraping notification every hour ${functionName}`)
             const getResultSubscriptions: Model["_attributes"] = await executeFinderSubscription()
             for (const result of getResultSubscriptions) {
