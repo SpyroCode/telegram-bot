@@ -1,7 +1,7 @@
 import logger from "../logger";
-import {getUser} from "./user";
+import {getUser, getUserByChatId} from "./user";
 import Subscription from "../db/models/subscription";
-import {ProductResult, Suscription, User} from "../interface/definitionTypes";
+import {ProductResult, Suscription, User as UserType, User} from "../interface/definitionTypes";
 import {Model} from "sequelize";
 import {getSites} from "./sites";
 import {scrapingProduct} from "../helpers/scraping";
@@ -99,7 +99,6 @@ export const executeFinderSubscription = async () => {
         }
         return getResultSubscriptions
     } catch (err: any) {
-        console.log(err)
         logger.error(`Error for executeFinderSubscription ${functionName}`)
         throw new Error( err )
     }
@@ -114,4 +113,19 @@ async function generateSubscriptionsResponseIndex () {
         logger.error(`Error for generateSubscriptionsIndex ${functionName}`)
         throw new Error( err )
     }
+}
+
+export const getResultSubscriptions = async (telegramId: number): Promise<Array<Model["_attributes"]>> => {
+    const functionName = 'functions.getResultSubscriptions'
+    try {
+        const user:any= await getUserByChatId(telegramId)
+        const getResultSubscriptionResponses = await SubscriptionResponse.findAll({
+            where: { active: true, userId: user.id}
+        })
+        return getResultSubscriptionResponses
+    } catch (err) {
+        logger.error(`Error for executeFinderSubscription ${functionName}`)
+        throw new Error( err )
+    }
+
 }

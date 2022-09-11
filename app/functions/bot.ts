@@ -3,8 +3,9 @@ import logger from "../logger";
 import {getUser} from "./user";
 import {getProduct, getProductResponse} from "./product";
 import {formatMoney, formatProductMessage, valueToNumber} from "../utils/format";
-import {getSubscriptions} from "./subscription";
+import {getResultSubscriptions, getSubscriptions} from "./subscription";
 import {FormatPhrase, ProductResult} from "../interface/definitionTypes";
+import {response} from "express";
 
 export default async function createBot ():Promise<any> {
     const functionName = 'functions.createBot'
@@ -82,7 +83,29 @@ export default async function createBot ():Promise<any> {
         })
 
         bot.command('verresultados', (ctx)=>{
-            console.log('estas viendo resultados')
+            const telegramId: number = ctx.message.from.id
+            getResultSubscriptions(telegramId)
+                .then(response =>{
+                    return response
+                })
+                .then(response =>{ return response.map(el => {
+                    return {
+                        siteCode: el.siteCode,
+                        coincidences: el.response
+                    }
+                })})
+                .then(response => {
+                    for (const resp of response ) {
+                        const iterator: Array<ProductResult> = refactorResponse(resp)
+                        for (const product of iterator) {
+                            ctx.reply(`${product?.name}`)
+                            ctx.reply(`Precio ${product?.price}`)
+                            ctx.reply(`${product?.description}`)
+                            ctx.reply(`${product?.image}`)
+                            ctx.reply(`${product?.url}`)
+                        }
+                    }
+                })
         })
         const validateResponse = (response:Array<any>, ctx: any) => {
             const functionName = 'validateResponse'

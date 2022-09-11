@@ -1,6 +1,7 @@
 import User from "../db/models/user";
 import logger from "../logger";
 import { User as UserType } from "../interface/definitionTypes";
+import {Model} from "sequelize";
 
 export const getUser = async (data: any) => {
     const functionName = 'functions.getUser'
@@ -72,6 +73,29 @@ export const getUserById = async (userId: string) => {
     const functionName = 'functions.getUser'
     try {
       return await User.findByPk(userId)
+    } catch (err) {
+        logger.error(`Error for generateUserIndex ${functionName}`)
+        throw new Error( err )
+    }
+}
+
+export const getUserByChatId = async (telegramId: number):Promise<User> => {
+    const functionName = 'functions.getUser'
+    try {
+        const user: UserType = {
+            firstName: '',
+            lastName: '',
+            telegramId: null,
+            index: null,
+            id: ''
+        }
+        const response: any = await User.findOne({where: {active: true, telegramId}})
+        user.id = response && response.id || ''
+        user.index = response && response.index || null
+        user.telegramId = response.telegramId || null
+        user.firstName = response && response.firstName || ''
+        user.lastName = response && response.lastName || ''
+        return user
     } catch (err) {
         logger.error(`Error for generateUserIndex ${functionName}`)
         throw new Error( err )
