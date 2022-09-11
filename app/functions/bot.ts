@@ -171,7 +171,7 @@ const refactorResponse = (resp: any):Array<any> => {
     const result: Array<any> = []
     const iterator: Array<any> = resp && resp.coincidences ?  resp.coincidences : []
     for (let i = 0; i<= totalResult; i++){
-        result.push({...iterator[i], price: iterator[i].price && formatMoney(valueToNumber(iterator[i].price))})
+        result.push({...iterator[i], price: iterator[i]?.price && formatMoney(valueToNumber(iterator[i].price))})
     }
 
    return result
