@@ -14,7 +14,13 @@
 > 4).-Correr las seeders `npm run seed-all`.
 > 
 > 5).-Para finalizar`npm run start` para ejecutar
+<p>Si levantas el proyecto con docker los pasos son los siguientes</p>
 
+> `docker-compose up`
+> 
+>Para Ejecutar las migraciones `docker exec node-bot_server_1 npm run migrate`
+>
+>Para Ejecutar los seeders `docker exec node-bot_server_1 npm run seed-all`
 - 💬 Ask me about **vue, react, javascript, php, laravel**
 
 - 📫 How to reach me **contacto@spyrocode.com**
