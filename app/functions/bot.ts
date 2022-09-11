@@ -5,7 +5,6 @@ import {getProduct, getProductResponse} from "./product";
 import {formatMoney, formatProductMessage, valueToNumber} from "../utils/format";
 import {getResultSubscriptions, getSubscriptions} from "./subscription";
 import {FormatPhrase, ProductResult} from "../interface/definitionTypes";
-import {response} from "express";
 
 export default async function createBot ():Promise<any> {
     const functionName = 'functions.createBot'
