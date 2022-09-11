@@ -3,7 +3,7 @@ import {getUser} from "./user";
 import Product from "../db/models/product";
 import {scrapingProduct} from "../helpers/scraping";
 import {User} from "../interface/definitionTypes";
-import {Model} from "sequelize";
+import {Model, Op} from "sequelize";
 import {refactorProductSearch, replaceValueForString} from "../utils/format";
 import {getSites} from "./sites";
 
@@ -12,15 +12,18 @@ export const getProduct = async (data: any):Promise<boolean> => {
     try {
       logger.info(`Started function ${functionName}`)
       const getEnabledSites: Array<Model["_attributes"]> = await getSites()
+      if (!getEnabledSites.length) return false
       const user: User = await getUser(data)
-      const previousResponse: Model | null = await Product.findOne({
+      const previousResponse: Array<Model> | null = await Product.findAll({
           where: {
              product: data.formatMessageProduct,
              userId: user.id,
              active: true
           }
       })
-      if (previousResponse)  await previousResponse.update({active: false})
+      for (const finderProduct of previousResponse) {
+          await finderProduct.update({active: false})
+      }
       let response: {} = {}
       for (const site of getEnabledSites) {
           response = await scrapingProduct(
@@ -53,7 +56,10 @@ export const getProductResponse = async (data: any):Promise<any> => {
             where: {
                 product: data.formatMessageProduct,
                 userId: user.id,
-                active: true
+                active: true,
+                response: {
+                    [Op.ne]: null
+                }
             }
         })
         return productResponse.map((resp: { siteCode: string; response: Array<any>; }) => {

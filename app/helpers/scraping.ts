@@ -20,21 +20,28 @@ export const scrapingProduct = async (url: string, productPhrase: string, config
             const price: any = await item.$(`${configuration.elements.price}`)
             const name: any = await item.$(`${configuration.elements.name}`)
             const image: any = await item.$(`${configuration.elements.image}`)
-            const getPrice: string = await page.evaluate(price => price.innerText, price)
-            const getName: string = await page.evaluate(name => name.innerText, name)
-            const getImage: string = await page.evaluate(image => image.getAttribute('src'), image)
+            const getPrice: string = price && await page.evaluate(price => price.innerText, price)
+            const getName: string = name && await page.evaluate(name => name.innerText, name)
+            const getImage: string = image && await page.evaluate(image => image.getAttribute('src'), image)
             result.push({
                 name: productPhrase,
                 price: getPrice,
                 description: getName,
-                image: getImage,
+                image: formatImage(getImage),
                 url
             })
         }
+
         await browser.close()
         return result
     } catch (err: any) {
-        logger.error(`Error for created Bot ${functionName}`)
-        throw new Error( err )
+        logger.error(`Error for ${functionName} site ${url}`)
     }
+}
+
+
+const formatImage = (image: string):string => {
+    if(!image) return ''
+    image.replace('https:', '')
+    return 'https:' + image
 }

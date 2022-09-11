@@ -24,10 +24,12 @@ export const replaceValueForString = (phraseProduct: string, collection: string)
 }
 
 export const valueToNumber = (value: any): number => {
+    if(!value) return 0
     const specialChars = '!@#$^&%*()+=-[]{}|:<>?,'
     for (let i = 0; i < specialChars.length; i++) {
-        value = value.replace(new RegExp('\\' + specialChars[i], 'gi'), '')
+        value = value && value.replace(new RegExp('\\' + specialChars[i], 'gi'), '')
     }
+    value = value.replace(/USD/g,'')
     value = value.replace(/á/gi, 'a')
     value = value.replace(/é/gi, 'e')
     value = value.replace(/í/gi, 'i')

@@ -45,9 +45,11 @@ export default async function createBot ():Promise<any> {
                 ctx.reply(`buscando...`)
                 getProduct({firstName, lastName, telegramId, formatMessageProduct: formatMessageProduct, price})
                     .then(()=>{
-                        getProductResponse({firstName, lastName, telegramId, formatMessageProduct: formatMessageProduct, price}).then(response => {return response})
-                            .then(response => {
-                                validateResponse(response, ctx)
+                        getProductResponse({firstName, lastName, telegramId, formatMessageProduct: formatMessageProduct, price}).then(products => {
+                            return products
+                        })
+                            .then(elements => {
+                                validateResponse(elements, ctx)
                             })
                     })
                     .catch(() => {
@@ -99,11 +101,11 @@ export default async function createBot ():Promise<any> {
                     const result = response.find(el => el.siteCode === siteCode)
                     const iterator: Array<ProductResult> = refactorResponse(result)
                     for (const product of iterator) {
-                        ctx.reply(`${product.name}`)
-                        ctx.reply(`Precio ${product.price}`)
-                        ctx.reply(`${product.description}`)
-                        ctx.reply(`${product.image}`)
-                        ctx.reply(`${product.url}`)
+                        ctx.reply(`${product?.name}`)
+                        ctx.reply(`Precio ${product?.price}`)
+                        ctx.reply(`${product?.description}`)
+                        ctx.reply(`${product?.image}`)
+                        ctx.reply(`${product?.url}`)
                     }
                     ctx.answerCbQuery()
                 })
@@ -113,30 +115,14 @@ export default async function createBot ():Promise<any> {
                     const result = response.find(el => el.siteCode === siteCode)
                     const iterator: Array<ProductResult> = refactorResponse(result)
                     for (const product of iterator) {
-                        ctx.reply(`${product.name}`)
-                        ctx.reply(`Precio ${product.price}`)
-                        ctx.reply(`${product.description}`)
-                        ctx.reply(`${product.image}`)
-                        ctx.reply(`${product.url}`)
+                        ctx.reply(`${product?.name}`)
+                        ctx.reply(`Precio ${product?.price}`)
+                        ctx.reply(`${product?.description}`)
+                        ctx.reply(`${product?.image}`)
+                        ctx.reply(`${product?.url}`)
                     }
                     ctx.answerCbQuery()
                 })
-
-                bot.action('AMAZON', ctx => {
-                    const siteCode: string = ctx.callbackQuery.data || ''
-                    const result = response.find(el => el.siteCode === siteCode)
-                    const iterator: Array<ProductResult> = refactorResponse(result)
-                    for (const product of iterator) {
-                        ctx.reply(`${product.name}`)
-                        ctx.reply(`Precio ${product.price}`)
-                        ctx.reply(`${product.description}`)
-                        ctx.reply(`${product.image}`)
-                        ctx.reply(`${product.url}`)
-                    }
-                    ctx.answerCbQuery()
-                })
-
-
 
 
             }catch (err: any) {
@@ -154,11 +140,11 @@ export default async function createBot ():Promise<any> {
 }
 
 const refactorResponse = (resp: any):Array<any> => {
-    const totalResult: number = 15
+    const totalResult: number = 10
     const result: Array<any> = []
-    const iterator: Array<any> =  resp.coincidences
+    const iterator: Array<any> = resp && resp.coincidences ?  resp.coincidences : []
     for (let i = 0; i<= totalResult; i++){
-        result.push({...iterator[i], price: formatMoney(valueToNumber(iterator[i].price))})
+        result.push({...iterator[i], price: iterator[i].price && formatMoney(valueToNumber(iterator[i].price))})
     }
 
    return result

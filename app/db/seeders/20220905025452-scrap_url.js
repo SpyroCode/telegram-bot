@@ -9,18 +9,13 @@ module.exports = {
     let dataScrapUrl = [
       {
         url: 'https://listado.mercadolibre.com.mx/VALUE#D[A:VALUE]',
-        code: 'ML',
+        code: 'MERCADO-LIBRE',
         configuration: '{"container": ".ui-search-results", "section": ".ui-search-layout__item", "elements":  {"price": ".price-tag-fraction", "name": ".ui-search-item__title", "image": ".ui-search-result-image__element"}}'
       },
       {
-        url: 'https://www.amazon.com/',
-        code: 'AMAZON',
-        configuration: '{}'
-      },
-      {
-        url: 'https://spanish.alibaba.com/',
+        url: 'https://spanish.alibaba.com//trade/search?fsb=y&IndexArea=product_en&CatId=&tab=all&SearchText=VALUE',
         code: 'ALIBABA',
-        configuration: '{}'
+        configuration: '{"container": ".app-organic-search__content", "section": ".list-no-v2-outter", "elements":  {"price": ".elements-offer-price-normal__promotion", "name": ".elements-title-normal__outter", "image": ".seb-img-switcher__imgs"}}'
       }
     ]
     dataScrapUrl = dataScrapUrl.map((el,idx) =>{
