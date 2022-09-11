@@ -22,7 +22,7 @@
 >
 >Para Ejecutar los seeders `docker exec node-bot_server_1 npm run seed-all`
 >
-> Para tirarlo `docker-compose down`s
+> Para tirarlo `docker-compose down`
 - 💬 Ask me about **vue, react, javascript, php, laravel**
 
 - 📫 How to reach me **contacto@spyrocode.com**
