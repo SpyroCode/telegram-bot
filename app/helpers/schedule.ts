@@ -6,7 +6,7 @@ export const scheduleCron = async () => {
     const functionName = 'helpers.scheduleCron'
     logger.info(`Started function ${functionName}`)
     try {
-        cron.schedule('42 * * * *',  async () => {
+        cron.schedule('59 * * * *',  async () => {
             logger.info(`running a task scraping notification every hour ${functionName}`)
             await executeFinderSubscription()
             logger.info(`Finished function ${functionName}`)
