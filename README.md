@@ -21,6 +21,8 @@
 >Para Ejecutar las migraciones `docker exec node-bot_server_1 npm run migrate`
 >
 >Para Ejecutar los seeders `docker exec node-bot_server_1 npm run seed-all`
+>
+> Para tirarlo `docker-compose down`s
 - 💬 Ask me about **vue, react, javascript, php, laravel**
 
 - 📫 How to reach me **contacto@spyrocode.com**
