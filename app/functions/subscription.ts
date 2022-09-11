@@ -6,6 +6,7 @@ import {Model} from "sequelize";
 import {getSites} from "./sites";
 import {scrapingProduct} from "../helpers/scraping";
 import {formatMoney, refactorProductSearch, replaceValueForString, valueToNumber} from "../utils/format";
+import SubscriptionResponse from "../db/models/subscription_response";
 
 export const getSubscriptions = async (data: any): Promise<Suscription> => {
     const functionName = 'functions.getSubscriptions'
@@ -58,8 +59,9 @@ async function generateSubscriptionsIndex (user: User) {
 }
 
 export const executeFinderSubscription = async () => {
-    const functionName = 'executeFinderSubscription'
+    const functionName = 'functions.executeFinderSubscription'
     try {
+        logger.info(`Started function ${functionName}`)
         const getEnabledSites: Array<Model["_attributes"]> = await getSites()
         const subscriptions: Array<Model["_attributes"]> = await Subscription.findAll({ where: { active: true } })
         for (const subscription of subscriptions) {
@@ -71,8 +73,24 @@ export const executeFinderSubscription = async () => {
                 )
                 if(response) {
                     const filterResponse: Array<ProductResult> = response.filter((el: any) => subscription.price >= valueToNumber(el.price))
-                    if(filterResponse){
-                       // filter code
+                    if(filterResponse && filterResponse.length){
+                       const subscriptionPrevioResponse: Model | null = await SubscriptionResponse.findOne({
+                           where: {
+                                active: true,
+                                userId: subscription.userId,
+                                subscriptionId: subscription.id,
+                                siteCode: site.code
+                           }
+                       })
+                        if (subscriptionPrevioResponse)  await subscriptionPrevioResponse.update({active: false})
+                        await SubscriptionResponse.create({
+                            index: await generateSubscriptionsResponseIndex(),
+                            userId: subscription.userId,
+                            subscriptionId: subscription.id,
+                            response: filterResponse,
+                            siteCode: site.code
+                        })
+
                     }
                 }
             }
@@ -80,6 +98,17 @@ export const executeFinderSubscription = async () => {
     } catch (err: any) {
         console.log(err)
         logger.error(`Error for executeFinderSubscription ${functionName}`)
+        throw new Error( err )
+    }
+}
+
+async function generateSubscriptionsResponseIndex () {
+    const functionName = 'generateSubscriptionsIndex'
+    try {
+        const { count } = await SubscriptionResponse.findAndCountAll()
+        return  count + 1
+    } catch (err: any) {
+        logger.error(`Error for generateSubscriptionsIndex ${functionName}`)
         throw new Error( err )
     }
 }

@@ -36,6 +36,7 @@ module.exports = {
             allowNull: false
           },
           response: Sequelize.DataTypes.JSONB,
+          site_code: Sequelize.DataTypes.STRING,
           is_active: {
             type: Sequelize.DataTypes.BOOLEAN,
             defaultValue: true,
