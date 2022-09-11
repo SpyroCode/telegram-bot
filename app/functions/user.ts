@@ -79,22 +79,10 @@ export const getUserById = async (userId: string) => {
     }
 }
 
-export const getUserByChatId = async (telegramId: number):Promise<User> => {
+export const getUserByChatId = async (telegramId: number):Promise<Model> => {
     const functionName = 'functions.getUser'
     try {
-        const user: UserType = {
-            firstName: '',
-            lastName: '',
-            telegramId: null,
-            index: null,
-            id: ''
-        }
-        const response: any = await User.findOne({where: {active: true, telegramId}})
-        user.id = response && response.id || ''
-        user.index = response && response.index || null
-        user.telegramId = response.telegramId || null
-        user.firstName = response && response.firstName || ''
-        user.lastName = response && response.lastName || ''
+        const user: Model["_attributes"] = await User.findOne({where: {active: true, telegramId}})
         return user
     } catch (err: any) {
         logger.error(`Error for generateUserIndex ${functionName}`)
