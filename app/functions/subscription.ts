@@ -1,8 +1,11 @@
 import logger from "../logger";
 import {getUser} from "./user";
 import Subscription from "../db/models/subscription";
-import {Suscription, User} from "../interface/definitionTypes";
+import {ProductResult, Suscription, User} from "../interface/definitionTypes";
 import {Model} from "sequelize";
+import {getSites} from "./sites";
+import {scrapingProduct} from "../helpers/scraping";
+import {formatMoney, refactorProductSearch, replaceValueForString, valueToNumber} from "../utils/format";
 
 export const getSubscriptions = async (data: any): Promise<Suscription> => {
     const functionName = 'functions.getSubscriptions'
@@ -50,6 +53,33 @@ async function generateSubscriptionsIndex (user: User) {
         return  count + 1
     } catch (err: any) {
         logger.error(`Error for generateSubscriptionsIndex ${functionName}`)
+        throw new Error( err )
+    }
+}
+
+export const executeFinderSubscription = async () => {
+    const functionName = 'executeFinderSubscription'
+    try {
+        const getEnabledSites: Array<Model["_attributes"]> = await getSites()
+        const subscriptions: Array<Model["_attributes"]> = await Subscription.findAll({ where: { active: true } })
+        for (const subscription of subscriptions) {
+            for (const site of getEnabledSites) {
+                const response: Array<ProductResult> = await scrapingProduct(
+                    replaceValueForString(refactorProductSearch(subscription.product), site.url),
+                    subscription.product,
+                    site.configuration
+                )
+                if(response) {
+                    const filterResponse: Array<ProductResult> = response.filter((el: any) => subscription.price >= valueToNumber(el.price))
+                    if(filterResponse){
+                       // filter code
+                    }
+                }
+            }
+        }
+    } catch (err: any) {
+        console.log(err)
+        logger.error(`Error for executeFinderSubscription ${functionName}`)
         throw new Error( err )
     }
 }

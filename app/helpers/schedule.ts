@@ -1,12 +1,14 @@
 import cron from 'node-cron'
 import logger from "../logger";
+import {executeFinderSubscription} from "../functions/subscription";
 
-export const scheduleCron = () => {
+export const scheduleCron = async () => {
     const functionName = 'helpers.scheduleCron'
     logger.info(`Started function ${functionName}`)
     try {
-        cron.schedule('59 * * * *', () => {
+        cron.schedule('59 * * * *',  async () => {
             logger.info(`running a task scraping notification every hour ${functionName}`)
+            await executeFinderSubscription()
         });
     } catch (err: any) {
         logger.error(`Error for scheduleCron ${functionName}`)
