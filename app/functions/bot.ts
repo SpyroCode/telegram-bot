@@ -23,7 +23,8 @@ export default async function createBot ():Promise<any> {
              })
          })
          bot.start((ctx)=>{
-            const firstName: string = ctx.message.from.first_name
+             console.log(ctx.message.chat)
+            const firstName: string = ctx.c
             const lastName: string = ctx.message.from.last_name || ''
             const telegramId: number = ctx.message.from.id
             getUser({firstName, lastName, telegramId}).then(response =>{
@@ -78,6 +79,12 @@ export default async function createBot ():Promise<any> {
                     ctx.reply(`Error en la suscripcion de ${formatMessageProduct}`)
                 })
             }
+        })
+
+        bot.command('verresultados', (ctx)=>{
+            console.log('estas viendo resultados')
+            console.log(ctx.message.from)
+            console.log(ctx.message.chat)
         })
         const validateResponse = (response:Array<any>, ctx: any) => {
             const functionName = 'validateResponse'

@@ -26,9 +26,17 @@ type Suscription = {
     date: Date | null
 }
 
+type ConfigTelegram = {
+    baseURL: string,
+    token: string,
+    chat_id: string,
+    parse_mode: string,
+}
+
 export {
     User,
     FormatPhrase,
     ProductResult,
-    Suscription
+    Suscription,
+    ConfigTelegram
 }
