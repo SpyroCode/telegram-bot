@@ -28,16 +28,16 @@ export const scheduleCron = async () => {
 }
 
 const sendNotification = async (
-    msn,
-    type,
-    chatId = '',
-    image='https://s.tcdn.co/8a1/9aa/8a19aab4-98c0-37cb-a3d4-491cb94d7e12/19.png'  ,
+    msn: string,
+    type: string,
+    chatId: string = '',
+    image: string ='https://s.tcdn.co/8a1/9aa/8a19aab4-98c0-37cb-a3d4-491cb94d7e12/19.png'  ,
 ) => {
     const functionName = 'helpers.sendNotification'
     try {
         const configTelegram: ConfigTelegram = {
-            baseURL: process.env.TELEGRAM_API_BOT,
-            token: process.env.BOT_TOKEN,
+            baseURL: process.env.TELEGRAM_API_BOT || '',
+            token: process.env.BOT_TOKEN || '',
             chat_id: chatId,
             parse_mode: 'MarkdownV2',
         }
@@ -46,7 +46,7 @@ const sendNotification = async (
         const endPoint = type === 'text' ? 'sendMessage' : 'sendSticker';
         const url = new URL(`${baseURL}${token}/${endPoint}`);
         // Imagen de prueba
-        const params = {
+        const params: any = {
             chat_id: chat_id,
             parse_mode: parse_mode
         };
@@ -55,7 +55,7 @@ const sendNotification = async (
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
         await axios.get(url.href);
 
-    } catch (err) {
+    } catch (err: any) {
         console.log(err)
         logger.error(`Error for scheduleCron ${functionName}`)
     }

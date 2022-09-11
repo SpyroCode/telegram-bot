@@ -24,8 +24,7 @@ export default async function createBot ():Promise<any> {
              })
          })
          bot.start((ctx)=>{
-             console.log(ctx.message.chat)
-            const firstName: string = ctx.c
+            const firstName: string = ctx.message.from.first_name || ''
             const lastName: string = ctx.message.from.last_name || ''
             const telegramId: number = ctx.message.from.id
             getUser({firstName, lastName, telegramId}).then(response =>{

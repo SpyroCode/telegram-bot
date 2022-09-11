@@ -123,7 +123,7 @@ export const getResultSubscriptions = async (telegramId: number): Promise<Array<
             where: { active: true, userId: user.id}
         })
         return getResultSubscriptionResponses
-    } catch (err) {
+    } catch (err: any) {
         logger.error(`Error for executeFinderSubscription ${functionName}`)
         throw new Error( err )
     }

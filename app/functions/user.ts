@@ -73,7 +73,7 @@ export const getUserById = async (userId: string) => {
     const functionName = 'functions.getUser'
     try {
       return await User.findByPk(userId)
-    } catch (err) {
+    } catch (err: any) {
         logger.error(`Error for generateUserIndex ${functionName}`)
         throw new Error( err )
     }
@@ -96,7 +96,7 @@ export const getUserByChatId = async (telegramId: number):Promise<User> => {
         user.firstName = response && response.firstName || ''
         user.lastName = response && response.lastName || ''
         return user
-    } catch (err) {
+    } catch (err: any) {
         logger.error(`Error for generateUserIndex ${functionName}`)
         throw new Error( err )
     }
