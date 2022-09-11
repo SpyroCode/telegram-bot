@@ -6,8 +6,10 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY ./ ./
 
-CMD 'tsc'
+CMD ["npm", "migrate"]
+
+CMD ["npm", "seed-all"]
 
 CMD ["npm", "start"]
