@@ -23,6 +23,11 @@
 >Para Ejecutar los seeders `docker exec node-bot_server_1 npm run seed-all`
 >
 > Para tirarlo `docker-compose down`
+> 
+<p>El token en el env esta configurado para un bot spyrocodebot</p>
+<p>Pero se puede configuar para cualquier bot de telegram solo agregando el token el env</p>
+
+>Para visulaizar la ayuda de los comandos en el bot `/help`
 - 💬 Ask me about **vue, react, javascript, php, laravel**
 
 - 📫 How to reach me **contacto@spyrocode.com**
