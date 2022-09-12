@@ -1,4 +1,5 @@
 FROM node:12.2.0
+
 ENV NODE_ENV='production'
 ENV DB_PORT='5432'
 ENV DB_DIALECT='postgres'
