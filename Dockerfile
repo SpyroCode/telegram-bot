@@ -3,7 +3,7 @@ FROM node:12.2.0
 ENV NODE_ENV='production'
 ENV DB_PORT='5432'
 ENV DB_DIALECT='postgres'
-ENV DB_HOST='db'
+ENV DB_HOST='challengebot.cluster-ccdimwbyk7wd.us-east-1.rds.amazonaws.com'
 ENV DB_USER='challenge-user'
 ENV DB_PASSWORD='dOcFF29D4dxjyqF1BeGRA'
 ENV DB_DATABASE='challenge_bot'
